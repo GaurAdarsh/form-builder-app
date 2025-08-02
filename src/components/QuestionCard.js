@@ -7,7 +7,6 @@ export default function QuestionCard({ question, onEdit, onDelete }) {
       <div className="flex justify-between">
         <h3 className="font-semibold text-lg">{question.questionText}</h3>
         <div className="space-x-2">
-          <button onClick={onEdit} className="text-blue-500">Edit</button>
           <button onClick={onDelete} className="text-red-500">Delete</button>
         </div>
       </div>
