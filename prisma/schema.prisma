@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Section {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  subSections SubSection[]
+  questions   Question[]
+}
+
+model SubSection {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  section   Section   @relation(fields: [sectionId], references: [id])
+  sectionId Int
+  questions Question[]
+}
+
+model Question {
+  id           String      @id @default(uuid())
+  questionText String
+  optionType   String
+  section      Section     @relation(fields: [sectionId], references: [id])
+  sectionId    Int         // Changed from String to Int ✅
+  subSection   SubSection  @relation(fields: [subSectionId], references: [id])
+  subSectionId Int         // Changed from String to Int ✅
+  options      Option[]
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  text       String
+  imageUrl   String?
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String   // Changed from Int to String ✅
+  marks        Int
+}
